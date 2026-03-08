@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS bolsa_empleo;
 CREATE DATABASE bolsa_empleo CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE bolsa_empleo;
 
+
 CREATE TABLE administrador (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     identificacion VARCHAR(50) NOT NULL,
