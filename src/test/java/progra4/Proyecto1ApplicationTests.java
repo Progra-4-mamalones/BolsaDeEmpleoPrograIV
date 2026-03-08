@@ -1,4 +1,4 @@
-package progra4.proyecto1;
+package progra4;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

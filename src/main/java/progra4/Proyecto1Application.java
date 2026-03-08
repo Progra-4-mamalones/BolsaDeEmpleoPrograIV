@@ -1,4 +1,4 @@
-package progra4.proyecto1;
+package progra4;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
