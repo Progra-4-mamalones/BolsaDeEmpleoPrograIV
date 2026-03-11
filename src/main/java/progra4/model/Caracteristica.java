@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
+//Me kgo en Sandra
+
 @Entity
 @Table(name = "caracteristica")
 @Getter
