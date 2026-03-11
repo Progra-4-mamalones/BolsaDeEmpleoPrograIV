@@ -3,6 +3,7 @@ package progra4.model;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //Me kgo en Sandra
 
@@ -24,6 +25,7 @@ public class Caracteristica {
     @JoinColumn(name = "padre_id")
     private Caracteristica padre;
 
-    @OneToMany(mappedBy = "padre")
+    @JsonIgnore
+    @OneToMany(mappedBy = "padre", fetch = FetchType.LAZY)
     private List<Caracteristica> subCaracteristicas;
 }

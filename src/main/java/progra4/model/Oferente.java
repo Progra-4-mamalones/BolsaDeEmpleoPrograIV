@@ -38,6 +38,6 @@ public class Oferente {
     @OneToOne(mappedBy = "oferente")
     private Curriculum curriculum;
 
-    @OneToMany(mappedBy = "oferente")
+    @OneToMany(mappedBy = "oferente", fetch = FetchType.LAZY)
     private List<OferenteCaracteristica> habilidades;
 }

@@ -32,6 +32,6 @@ public class Puesto {
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "puesto")
+    @OneToMany(mappedBy = "puesto", fetch = FetchType.LAZY)
     private List<PuestoCaracteristica> requisitos;
 }

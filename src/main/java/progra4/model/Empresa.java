@@ -31,6 +31,6 @@ public class Empresa {
 
     private LocalDateTime fechaRegistro;
 
-    @OneToMany(mappedBy = "empresa")
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY)
     private List<Puesto> puestos;
 }
