@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Puestos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<nav class="bg-black text-gray-300">
+
+    <input type="checkbox" id="menuToggle" class="hidden peer/menu">
+
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-14">
+
+            <!-- LOGO -->
+            <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 4v16m8-8H4"/>
+                </svg>
+                BolsaEmpleo
+            </a>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex gap-6 text-sm">
+                <a href="/puestos/buscar-por-caracteristicas" class="hover:text-white">Buscar puestos</a>
+                <a href="/empresa/registro" class="hover:text-white">Registro Empresa</a>
+                <a href="/oferente/registro" class="hover:text-white">Registro Oferente</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="/login" class="text-sm hover:text-white">Login</a>
+            </div>
+
+            <!-- BOTON HAMBURGER -->
+            <label for="menuToggle" class="md:hidden cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </label>
+
+        </div>
+    </div>
+
+    <!-- MENU MOBILE -->
+    <div class="hidden peer-checked/menu:block md:!hidden">
+        <div class="flex flex-col px-4 py-3 gap-3 text-sm">
+            <a href="/puestos/buscar-por-caracteristicas" class="hover:text-blue-400">Buscar puestos</a>
+            <a href="/empresa/registro" class="hover:text-blue-400">Registro Empresa</a>
+            <a href="/oferente/registro" class="hover:text-blue-400">Registro Oferente</a>
+            <a href="/login" class="hover:text-blue-400">Login</a>
+        </div>
+    </div>
+
+</nav>
+
+<!-- CONTENIDO -->
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+
+    <div class="bg-white rounded-lg shadow p-6 max-w-xl">
+
+        <h1 class="text-xl font-bold text-gray-800 mb-4">Buscar puestos por características</h1>
+
+        <form method="get" action="/puestos/buscar-por-caracteristicas">
+
+            <!-- LISTA DE CARACTERISTICAS CON CHECKBOXES -->
+            <div class="border rounded p-3 mb-4 max-h-60 overflow-y-auto text-sm text-gray-700">
+                <div th:each="padre : ${todasCaracteristicas}" th:if="${padre.padre == null}">
+
+                    <!-- CATEGORIA PADRE con checkbox -->
+                    <div class="flex items-center gap-2 mt-2">
+                        <input type="checkbox"
+                               name="caracteristicas"
+                               th:value="${padre.id}"
+                               th:checked="${seleccionadas != null and seleccionadas.contains(padre.id)}">
+                        <span class="font-semibold" th:text="${padre.nombre}"></span>
+                    </div>
+
+                    <!-- HIJOS con checkbox, indentados -->
+                    <div th:each="hijo : ${todasCaracteristicas}"
+                         th:if="${hijo.padre != null and hijo.padre.id == padre.id}"
+                         class="ml-6 flex items-center gap-2 py-0.5">
+                        <input type="checkbox"
+                               name="caracteristicas"
+                               th:value="${hijo.id}"
+                               th:checked="${seleccionadas != null and seleccionadas.contains(hijo.id)}">
+                        <span th:text="${hijo.nombre}"></span>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-1.5 rounded hover:bg-blue-600 text-sm">
+                    Buscar
+                </button>
+                <a href="/puestos/buscar-por-caracteristicas"
+                   class="bg-gray-200 text-gray-700 px-4 py-1.5 rounded hover:bg-gray-300 text-sm">
+                    Limpiar
+                </a>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- RESULTADOS -->
+    <div th:if="${resultados != null}" class="mt-6">
+        <h2 class="text-lg font-semibold text-gray-700 mb-3">Resultados</h2>
+
+        <div th:if="${resultados.isEmpty()}" class="text-gray-500 text-sm">
+            No se encontraron puestos con esas características.
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div th:each="puesto : ${resultados}"
+                 class="bg-white rounded-lg p-4 shadow border border-gray-200">
+                <p class="text-gray-500 text-sm" th:text="${puesto.empresa.nombre}"></p>
+                <h3 class="font-semibold text-gray-800" th:text="${puesto.titulo}"></h3>
+                <p class="text-gray-700 font-bold mt-1"
+                   th:text="'₡ ' + ${#numbers.formatDecimal(puesto.salario, 1, 'COMMA', 0, 'POINT')}"></p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-gray-900 text-gray-300 text-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
+        <span>Bolsa de Empleo</span>
+        <span>Contacto info@bolsaempleo.local</span>
+    </div>
+</footer>
+
+</body>
+</html>

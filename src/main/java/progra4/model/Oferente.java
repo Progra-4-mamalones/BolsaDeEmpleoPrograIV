@@ -17,6 +17,8 @@ public class Oferente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String clave;
+
     private String identificacion;
 
     private String nombre;

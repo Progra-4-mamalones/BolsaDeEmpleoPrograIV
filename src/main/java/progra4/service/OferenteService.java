@@ -31,4 +31,8 @@ public class OferenteService {
     public void eliminar(Long id) {
         oferenteRepository.deleteById(id);
     }
+
+    public Oferente buscarPorCorreo(String correo) {
+        return oferenteRepository.findByCorreo(correo);
+    }
 }

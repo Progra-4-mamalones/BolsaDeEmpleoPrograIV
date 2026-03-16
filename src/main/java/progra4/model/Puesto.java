@@ -28,10 +28,12 @@ public class Puesto {
 
     private LocalDateTime fecha;
 
+    private String titulo;
+
     @ManyToOne
     @JoinColumn(name = "empresa_id")
     private Empresa empresa;
 
-    @OneToMany(mappedBy = "puesto", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "puesto", fetch = FetchType.EAGER)
     private List<PuestoCaracteristica> requisitos;
 }

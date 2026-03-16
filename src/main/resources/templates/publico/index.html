@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bolsa de Empleo</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<!-- NAVBAR -->
+<nav class="bg-black text-gray-300">
+
+    <input type="checkbox" id="menuToggle" class="hidden peer/menu">
+
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-14">
+
+            <!-- LOGO -->
+            <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M12 4v16m8-8H4"/>
+                </svg>
+                BolsaEmpleo
+            </a>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex gap-6 text-sm">
+                <a href="/puestos/buscar-por-caracteristicas" class="hover:text-white">Buscar puestos</a>
+                <a href="/empresa/registro" class="hover:text-white">Registro Empresa</a>
+                <a href="/oferente/registro" class="hover:text-white">Registro Oferente</a>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="/login" class="text-sm hover:text-white">Login</a>
+            </div>
+
+            <!-- BOTON HAMBURGER -->
+            <label for="menuToggle" class="md:hidden cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </label>
+
+        </div>
+    </div>
+
+    <!-- MENU MOBILE -->
+    <div class="hidden peer-checked/menu:block md:!hidden">
+        <div class="flex flex-col px-4 py-3 gap-3 text-sm">
+            <a href="/puestos/buscar-por-caracteristicas" class="hover:text-blue-400">Buscar puestos</a>
+            <a href="/empresa/registro" class="hover:text-blue-400">Registro Empresa</a>
+            <a href="/oferente/registro" class="hover:text-blue-400">Registro Oferente</a>
+            <a href="/login" class="hover:text-blue-400">Login</a>
+        </div>
+    </div>
+
+</nav>
+
+<!-- CONTENIDO -->
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8">
+
+    <h1 class="text-3xl font-bold text-gray-800 mb-1">
+        Bolsa de Empleo
+    </h1>
+
+    <p class="text-gray-500 mb-6">
+        Últimos 5 puestos públicos
+    </p>
+
+
+    <!-- GRID DE PUESTOS -->
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+        <!-- CARD -->
+        <div
+                th:each="puesto : ${puestos}"
+                class="bg-green-100 rounded-lg p-5 shadow-sm border border-green-200 hover:shadow-md transition">
+
+            <p class="text-gray-600 text-sm"
+               th:text="${puesto.empresa.nombre}">
+                Empresa
+            </p>
+
+            <h2 class="font-semibold text-lg text-gray-800"
+                th:text="${puesto.titulo}">
+                Titulo del puesto
+            </h2>
+
+            <p class="font-bold text-gray-900 mt-2"
+               th:text="'₡ ' + ${#numbers.formatDecimal(puesto.salario, 1, 'COMMA', 0, 'POINT')}">
+                Salario
+            </p>
+
+            <div class="mt-3 relative inline-block group w-full">
+
+                <button
+                   class="w-full block text-center bg-white text-blue-500 py-1.5 rounded hover:bg-blue-600 hover:text-white border border-blue-500">
+                    Ver detalle
+                </button>
+
+                <!-- TOOLTIP -->
+                <div class="absolute left-0 top-full mt-2 hidden group-hover:block bg-white border rounded-lg shadow-lg p-3 text-sm w-64 z-20 border-blue-500">
+
+                    <h3 class="font-semibold mb-1" th:text="${puesto.titulo}">
+                        Título
+                    </h3>
+
+                    <ul class="list-disc ml-4 space-y-1">
+                        <li th:each="req : ${puesto.requisitos}"
+                            th:text="${req.caracteristica.nombre} + ' (nivel ' + ${req.nivel} + ')'">
+                            Característica (nivel X)
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PANEL DETALLE -->
+
+    <div id="detallePanel"
+         class="hidden mt-8 max-w-md bg-white border rounded-lg shadow p-4">
+
+        <h3 class="font-semibold text-lg mb-2 flex items-center gap-2">
+
+            <!-- icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6M9 8h6"/>
+
+            </svg>
+
+            Detalles del puesto
+
+        </h3>
+
+        <ul id="detalleContenido" class="text-sm text-gray-700 space-y-1">
+
+        </ul>
+
+    </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer class="bg-gray-900 text-gray-300 text-sm">
+
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
+
+        <span>Bolsa de Empleo</span>
+
+        <span>
+Contacto info@bolsaempleo.local
+</span>
+
+    </div>
+
+</footer>
+
+</body>
+</html>

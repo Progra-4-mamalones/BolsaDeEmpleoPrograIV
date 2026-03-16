@@ -7,4 +7,5 @@ public interface AdministradorRepository extends JpaRepository<Administrador, Lo
 
     Administrador findByIdentificacion(String identificacion);
 
+
 }

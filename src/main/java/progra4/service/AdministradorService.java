@@ -31,4 +31,8 @@ public class AdministradorService {
     public void eliminar(Long id) {
         administradorRepository.deleteById(id);
     }
+
+    public Administrador buscarPorIdentificacion(String identificacion) {
+        return administradorRepository.findByIdentificacion(identificacion);
+    }
 }

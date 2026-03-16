@@ -31,4 +31,12 @@ public class PuestoService {
     public void eliminar(Long id) {
         puestoRepository.deleteById(id);
     }
+
+    public List<Puesto> obtenerUltimosCincoPuestos() {
+        return puestoRepository.findTop5ByTipoPublicacionAndActivoOrderByFechaDesc("PUBLICO", true);
+    }
+
+    public List<Puesto> buscarPorCaracteristicas(List<Long> ids) {
+        return puestoRepository.buscarPorCaracteristicas(ids);
+    }
 }

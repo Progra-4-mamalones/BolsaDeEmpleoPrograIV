@@ -15,6 +15,7 @@ CREATE TABLE empresa (
     correo VARCHAR(150) UNIQUE NOT NULL,
     telefono VARCHAR(50),
     descripcion TEXT,
+    clave VARCHAR(255),
     aprobada BOOLEAN DEFAULT FALSE,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -28,6 +29,7 @@ CREATE TABLE oferente (
     telefono VARCHAR(50),
     correo VARCHAR(150) UNIQUE NOT NULL,
     residencia VARCHAR(150),
+    clave VARCHAR(255),
     aprobado BOOLEAN DEFAULT FALSE,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -52,6 +54,7 @@ CREATE TABLE caracteristica (
 
 CREATE TABLE puesto (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL DEFAULT 'Sin título',
     empresa_id BIGINT NOT NULL,
     descripcion TEXT NOT NULL,
     salario DECIMAL(10,2),

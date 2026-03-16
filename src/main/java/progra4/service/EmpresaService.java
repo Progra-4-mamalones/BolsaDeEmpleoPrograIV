@@ -31,4 +31,8 @@ public class EmpresaService {
     public void eliminar(Long id) {
         empresaRepository.deleteById(id);
     }
+
+    public Empresa buscarPorCorreo(String correo) {
+        return empresaRepository.findByCorreo(correo);
+    }
 }
