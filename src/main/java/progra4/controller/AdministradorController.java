@@ -1,10 +1,11 @@
 package progra4.controller;
 
-import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import progra4.config.UserDetailsImpl;
 import progra4.model.Administrador;
 import progra4.model.Caracteristica;
 import progra4.service.AdministradorService;
@@ -26,87 +27,46 @@ public class AdministradorController {
             OferenteService oferenteService,
             CaracteristicaService caracteristicaService,
             AdministradorService administradorService) {
-
         this.empresaService = empresaService;
         this.oferenteService = oferenteService;
         this.caracteristicaService = caracteristicaService;
         this.administradorService = administradorService;
     }
 
-    private boolean noEsAdmin(HttpSession session) {
-        return session.getAttribute("usuarioRol") == null ||
-                !session.getAttribute("usuarioRol").equals("ADMIN");
-    }
-
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session, Model model) {
-
-        if (noEsAdmin(session)) {
-            return "redirect:/login";
-        }
-
-        Long adminId = (Long) session.getAttribute("usuarioId");
-        String adminNombre = (String) session.getAttribute("usuarioNombre");
-
-        model.addAttribute("adminId", adminId);
-        model.addAttribute("adminNombre", adminNombre);
-
+    public String dashboard(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        model.addAttribute("adminNombre", userDetails.getUsername());
         model.addAttribute("empresasPendientes", empresaService.contarPendientes());
         model.addAttribute("oferentesPendientes", oferenteService.contarPendientes());
         model.addAttribute("totalEmpresas", empresaService.contar());
         model.addAttribute("totalOferentes", oferenteService.contar());
         model.addAttribute("totalAdmins", administradorService.obtenerTodos().size());
-
         return "admin/dashboard";
     }
 
     @GetMapping("/aprobaciones")
-    public String aprobaciones(HttpSession session, Model model) {
-
-        if (noEsAdmin(session)) {
-            return "redirect:/login";
-        }
-
+    public String aprobaciones(Model model) {
         model.addAttribute("empresas", empresaService.obtenerPendientes());
         model.addAttribute("oferentes", oferenteService.obtenerPendientes());
-
         return "admin/aprobaciones";
     }
 
     @GetMapping("/empresas")
-    public String listarEmpresas(HttpSession session, Model model) {
-
-        if (noEsAdmin(session)) {
-            return "redirect:/login";
-        }
-
+    public String listarEmpresas(Model model) {
         model.addAttribute("empresas", empresaService.obtenerTodas());
-
         return "admin/listEmpresas";
     }
 
     @GetMapping("/oferentes")
-    public String listarOferentes(HttpSession session, Model model) {
-
-        if (noEsAdmin(session)) {
-            return "redirect:/login";
-        }
-
+    public String listarOferentes(Model model) {
         model.addAttribute("oferentes", oferenteService.obtenerTodos());
-
         return "admin/listOferentes";
     }
 
     @GetMapping("/caracteristicas")
-    public String verCaracteristicas(HttpSession session, Model model) {
-
-        if (noEsAdmin(session)) {
-            return "redirect:/login";
-        }
-
+    public String verCaracteristicas(Model model) {
         model.addAttribute("caracteristicas", caracteristicaService.obtenerTodas());
         model.addAttribute("nueva", new Caracteristica());
-
         return "admin/caracteristicas";
     }
 
@@ -137,19 +97,15 @@ public class AdministradorController {
     @PostMapping("/caracteristicas")
     public String guardarCaracteristica(@ModelAttribute Caracteristica c,
                                         @RequestParam(required = false) Long padreId) {
-
         if (padreId != null) {
             Caracteristica padre = caracteristicaService.obtenerTodas()
                     .stream()
                     .filter(x -> x.getId().equals(padreId))
                     .findFirst()
                     .orElse(null);
-
             c.setPadre(padre);
         }
-
         caracteristicaService.guardar(c);
-
         return "redirect:/admin/caracteristicas";
     }
 
