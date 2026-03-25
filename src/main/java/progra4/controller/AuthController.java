@@ -27,10 +27,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String mostrarLogin() {
+    public String mostrarLogin(@RequestParam(required = false) String error, Model model) {
+        if (error != null) {
+            model.addAttribute("error", "Usuario o contraseña incorrectos.");
+        }
         return "auth/login";
     }
-
     @PostMapping("/login")
     public String procesarLogin(@RequestParam String usuario,
                                 @RequestParam String clave,

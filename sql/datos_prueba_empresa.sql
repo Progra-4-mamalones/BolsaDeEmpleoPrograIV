@@ -1,3 +1,4 @@
+USE bolsa_empleo;
 
 INSERT INTO empresa (id, nombre, correo, telefono, localizacion, descripcion, aprobada, fecha_registro)
 VALUES (1, 'TechCorp Solutions', 'info@techcorp.com', '+34 91 234 5678', 'Madrid, España',

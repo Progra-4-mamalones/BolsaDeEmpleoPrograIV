@@ -9,39 +9,19 @@
 
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
-<nav class="bg-black text-gray-300">
-    <input type="checkbox" id="menuToggle" class="hidden peer/menu">
+<nav class="bg-blue-600 text-white shadow-lg">
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center h-14">
-            <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            <a href="/oferente/dashboard" class="flex items-center gap-2 font-semibold hover:text-white">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                 </svg>
                 BolsaEmpleo
             </a>
-            <div class="hidden md:flex gap-6 text-sm">
-                <a href="/oferente/dashboard" class="hover:text-white">Dashboard</a>
-                <a href="/oferente/habilidades" class="hover:text-white">Mis habilidades</a>
-                <a href="/oferente/curriculum" class="hover:text-white">Mi CV</a>
-            </div>
-            <div class="hidden md:flex items-center gap-3">
+            <div class="md:flex items-center gap-3">
                 <span class="text-sm" th:text="${oferente.correo}"></span>
-                <a href="/logout" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded">Salir</a>
+                <a href="/logout" class="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded">Cerrar sesion</a>
             </div>
-            <label for="menuToggle" class="md:hidden cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </label>
-        </div>
-    </div>
-    <div class="hidden peer-checked/menu:block md:!hidden">
-        <div class="flex flex-col px-4 py-3 gap-3 text-sm">
-            <a href="/oferente/dashboard" class="hover:text-blue-400">Dashboard</a>
-            <a href="/oferente/habilidades" class="hover:text-blue-400">Mis habilidades</a>
-            <a href="/oferente/curriculum" class="hover:text-blue-400">Mi CV</a>
-            <a href="/logout" class="hover:text-blue-400">Salir</a>
         </div>
     </div>
 </nav>
@@ -51,6 +31,16 @@
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Mis habilidades</h1>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <div th:if="${param.exito}"
+             class="bg-green-100 text-green-700 text-sm rounded p-3 mb-4">
+            Habilidad agregada correctamente.
+        </div>
+
+        <div th:if="${param.error}"
+             class="bg-red-100 text-red-700 text-sm rounded p-3 mb-4">
+            Esta habilidad ya está registrada.
+        </div>
 
         <!-- TABLA DE HABILIDADES ACTUALES -->
         <div class="bg-white rounded-lg shadow p-5">
@@ -121,11 +111,28 @@
                     <label class="block text-sm text-gray-600 mb-1">Característica</label>
                     <select name="caracteristicaId"
                             class="w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
-                        <option th:each="c : ${todasCaracteristicas}"
-                                th:value="${c.id}"
-                                th:text="${c.nombre}"
-                                th:selected="${actual != null and actual.id == c.id}">
-                        </option>
+
+                        <!-- Mostrar las subcategorías del nivel actual -->
+                        <th:block th:if="${not subcategorias.isEmpty()}">
+                            <option th:each="c : ${subcategorias}"
+                                    th:value="${c.id}"
+                                    th:text="${c.nombre}">
+                            </option>
+                        </th:block>
+
+                        <!-- Si no hay subcategorías, mostrar la característica actual -->
+                        <th:block th:if="${subcategorias.isEmpty() and actual != null}">
+                            <option th:value="${actual.id}"
+                                    th:text="${actual.nombre}"
+                                    selected>
+                            </option>
+                        </th:block>
+
+                        <!-- Si estamos en raíces sin selección -->
+                        <th:block th:if="${actual == null}">
+                            <option value="" disabled selected>Navegá la jerarquía para seleccionar</option>
+                        </th:block>
+
                     </select>
                 </div>
 

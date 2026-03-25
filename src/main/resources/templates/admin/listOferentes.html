@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Oferentes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<nav class="bg-black text-gray-300">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-14">
+
+      <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+        BolsaEmpleo
+      </a>
+
+      <div class="hidden md:flex gap-6 text-sm">
+        <a href="/admin/dashboard" class="hover:text-white">Dashboard</a>
+        <a href="/admin/aprobaciones" class="hover:text-white">Aprobaciones</a>
+        <a href="/admin/empresas" class="hover:text-white">Empresas</a>
+        <a href="/admin/oferentes" class="hover:text-white">Oferentes</a>
+        <a href="/admin/caracteristicas" class="hover:text-white">Características</a>
+      </div>
+
+      <div>
+        <a href="/logout" class="text-sm hover:text-white">Salir</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    Lista de Oferentes
+  </h1>
+
+  <div class="bg-white rounded-lg shadow p-6 overflow-x-auto">
+
+    <table class="w-full text-sm">
+      <thead>
+      <tr class="border-b text-left text-gray-600">
+        <th class="py-2">Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th class="text-right">Acciones</th>
+      </tr>
+      </thead>
+
+      <tbody>
+
+      <tr th:each="o : ${oferentes}" class="border-b last:border-0">
+
+        <td class="py-2">
+          <span th:text="${o.nombre}"></span>
+          <span th:text="${o.apellido}"></span>
+        </td>
+
+        <td th:text="${o.correo}"></td>
+        <td th:text="${o.telefono}"></td>
+
+        <td>
+                    <span th:if="${o.aprobado}"
+                          class="text-green-600 font-semibold">
+                        Aprobado
+                    </span>
+          <span th:if="${!o.aprobado}"
+                class="text-yellow-600 font-semibold">
+                        Pendiente
+                    </span>
+        </td>
+
+        <td class="text-right">
+
+          <form th:action="@{/admin/oferente/rechazar/{id}(id=${o.id})}"
+                method="post"
+                class="inline">
+
+            <button type="submit"
+                    class="text-red-500 hover:text-red-700 text-xs">
+              Eliminar
+            </button>
+
+          </form>
+
+        </td>
+
+      </tr>
+
+      <tr th:if="${oferentes.isEmpty()}">
+        <td colspan="5" class="text-center text-gray-400 py-4">
+          No hay oferentes registrados
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+
+  </div>
+
+</main>
+
+<footer class="bg-gray-900 text-gray-300 text-sm">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
+    <span>Bolsa de Empleo</span>
+    <span>Admin Panel</span>
+  </div>
+</footer>
+
+</body>
+</html>

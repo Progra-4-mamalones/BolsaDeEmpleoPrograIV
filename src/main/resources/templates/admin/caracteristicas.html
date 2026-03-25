@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Características</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<nav class="bg-black text-gray-300">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-14">
+
+      <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+        BolsaEmpleo
+      </a>
+
+      <div class="hidden md:flex gap-6 text-sm">
+        <a href="/admin/dashboard" class="hover:text-white">Dashboard</a>
+        <a href="/admin/aprobaciones" class="hover:text-white">Aprobaciones</a>
+        <a href="/admin/empresas" class="hover:text-white">Empresas</a>
+        <a href="/admin/oferentes" class="hover:text-white">Oferentes</a>
+        <a href="/admin/caracteristicas" class="hover:text-white">Características</a>
+      </div>
+
+      <div>
+        <a href="/logout" class="text-sm hover:text-white">Salir</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    Gestión de Características
+  </h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- LISTA -->
+    <div class="bg-white rounded-lg shadow p-5">
+
+      <h2 class="font-semibold mb-4">Lista</h2>
+
+      <ul class="text-sm text-gray-700 space-y-1">
+
+        <li th:each="c : ${caracteristicas}">
+          <span th:text="${c.nombre}"></span>
+          <span class="text-gray-400"
+                th:if="${c.padre != null}"
+                th:text="' (Padre: ' + ${c.padre.nombre} + ')'">
+                    </span>
+        </li>
+
+        <li th:if="${caracteristicas.isEmpty()}"
+            class="text-gray-400">
+          No hay características
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- FORM -->
+    <div class="bg-white rounded-lg shadow p-5">
+
+      <h2 class="font-semibold mb-4">Nueva Característica</h2>
+
+      <form method="post" action="/admin/caracteristicas">
+
+        <div class="mb-3">
+          <label class="block text-sm mb-1">Nombre</label>
+          <input type="text" name="nombre" required
+                 class="w-full border rounded px-3 py-2 text-sm">
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm mb-1">Padre (opcional)</label>
+          <select name="padreId"
+                  class="w-full border rounded px-3 py-2 text-sm">
+
+            <option value="">Sin padre</option>
+
+            <option th:each="c : ${caracteristicas}"
+                    th:value="${c.id}"
+                    th:text="${c.nombre}">
+            </option>
+
+          </select>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 text-sm">
+          Guardar
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</main>
+
+<footer class="bg-gray-900 text-gray-300 text-sm">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
+    <span>Bolsa de Empleo</span>
+    <span>Admin Panel</span>
+  </div>
+</footer>
+
+</body>
+</html>

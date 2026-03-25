@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Aprobaciones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<nav class="bg-black text-gray-300">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center h-14">
+
+      <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+        BolsaEmpleo
+      </a>
+
+      <div class="hidden md:flex gap-6 text-sm">
+        <a href="/admin/dashboard" class="hover:text-white">Dashboard</a>
+        <a href="/admin/aprobaciones" class="hover:text-white">Aprobaciones</a>
+        <a href="/admin/empresas" class="hover:text-white">Empresas</a>
+        <a href="/admin/oferentes" class="hover:text-white">Oferentes</a>
+        <a href="/admin/caracteristicas" class="hover:text-white">Características</a>
+      </div>
+
+      <div>
+        <a href="/logout" class="text-sm hover:text-white">Salir</a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8">
+
+  <h1 class="text-2xl font-bold mb-6">Aprobaciones</h1>
+
+  <div class="grid md:grid-cols-2 gap-6">
+
+    <!-- EMPRESAS -->
+    <div class="bg-white p-5 rounded shadow">
+      <h2 class="font-semibold mb-4">Empresas pendientes</h2>
+
+      <div th:if="${empresas.isEmpty()}" class="text-gray-400 text-sm">
+        Sin empresas pendientes
+      </div>
+
+      <div th:each="e : ${empresas}" class="border-b py-3 flex justify-between items-center">
+        <div>
+          <p class="font-semibold" th:text="${e.nombre}"></p>
+          <p class="text-sm text-gray-500" th:text="${e.correo}"></p>
+        </div>
+
+        <div class="flex gap-2">
+          <form th:action="@{'/admin/empresa/aprobar/' + ${e.id}}" method="post">
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✔</button>
+          </form>
+          <form th:action="@{'/admin/empresa/rechazar/' + ${e.id}}" method="post">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">✖</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFERENTES -->
+    <div class="bg-white p-5 rounded shadow">
+      <h2 class="font-semibold mb-4">Oferentes pendientes</h2>
+
+      <div th:if="${oferentes.isEmpty()}" class="text-gray-400 text-sm">
+        Sin oferentes pendientes
+      </div>
+
+      <div th:each="o : ${oferentes}" class="border-b py-3 flex justify-between items-center">
+        <div>
+          <p class="font-semibold"
+             th:text="${o.nombre + ' ' + o.apellido}"></p>
+          <p class="text-sm text-gray-500"
+             th:text="${o.correo}"></p>
+        </div>
+
+        <div class="flex gap-2">
+          <form th:action="@{'/admin/oferente/aprobar/' + ${o.id}}" method="post">
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✔</button>
+          </form>
+          <form th:action="@{'/admin/oferente/rechazar/' + ${o.id}}" method="post">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">✖</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+</body>
+</html>

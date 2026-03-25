@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+<nav class="bg-black text-gray-300">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-14">
+
+            <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
+                BolsaEmpleo
+            </a>
+
+            <div class="hidden md:flex gap-6 text-sm">
+                <a href="/admin/dashboard" class="hover:text-white">Dashboard</a>
+                <a href="/admin/aprobaciones" class="hover:text-white">Aprobaciones</a>
+                <a href="/admin/empresas" class="hover:text-white">Empresas</a>
+                <a href="/admin/oferentes" class="hover:text-white">Oferentes</a>
+                <a href="/admin/caracteristicas" class="hover:text-white">Características</a>
+            </div>
+
+            <div>
+                <a href="/logout" class="text-sm hover:text-white">Salir</a>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Dashboard Admin</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <!-- Empresas pendientes -->
+        <div class="bg-white rounded-lg shadow p-5">
+            <p class="text-gray-500 text-sm">Empresas pendientes</p>
+            <h2 class="text-3xl font-bold text-gray-800"
+                th:text="${empresasPendientes}">0</h2>
+        </div>
+
+        <!-- Oferentes pendientes -->
+        <div class="bg-white rounded-lg shadow p-5">
+            <p class="text-gray-500 text-sm">Oferentes pendientes</p>
+            <h2 class="text-3xl font-bold text-gray-800"
+                th:text="${oferentesPendientes}">0</h2>
+        </div>
+
+        <!-- Total empresas -->
+        <div class="bg-white rounded-lg shadow p-5">
+            <p class="text-gray-500 text-sm">Total empresas</p>
+            <h2 class="text-3xl font-bold text-gray-800"
+                th:text="${totalEmpresas}">0</h2>
+        </div>
+
+        <!-- Total oferentes -->
+        <div class="bg-white rounded-lg shadow p-5">
+            <p class="text-gray-500 text-sm">Total oferentes</p>
+            <h2 class="text-3xl font-bold text-gray-800"
+                th:text="${totalOferentes}">0</h2>
+        </div>
+
+    </div>
+
+    <!-- Accesos rápidos -->
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <a href="/admin/aprobaciones"
+           class="bg-blue-500 text-white p-4 rounded shadow hover:bg-blue-600 text-center">
+            Aprobar usuarios
+        </a>
+
+        <a href="/admin/empresas"
+           class="bg-blue-500 text-white p-4 rounded shadow hover:bg-blue-600 text-center">
+            Ver empresas
+        </a>
+
+        <a href="/admin/caracteristicas"
+           class="bg-blue-500 text-white p-4 rounded shadow hover:bg-blue-600 text-center">
+            Gestionar características
+        </a>
+
+    </div>
+
+</main>
+
+<footer class="bg-gray-900 text-gray-300 text-sm">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between">
+        <span>Bolsa de Empleo</span>
+        <span>Admin panel</span>
+    </div>
+</footer>
+
+</body>
+</html>

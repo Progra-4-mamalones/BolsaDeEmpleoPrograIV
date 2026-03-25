@@ -35,4 +35,18 @@ public class EmpresaService {
     public Empresa buscarPorCorreo(String correo) {
         return empresaRepository.findByCorreo(correo);
     }
+
+    public long contar() { return empresaRepository.count(); }
+
+    public long contarPendientes() { return empresaRepository.countByAprobadaFalse(); }
+
+    public List<Empresa> obtenerPendientes() { return empresaRepository.findByAprobadaFalse(); }
+
+    public void aprobar(Long id) {
+        Empresa e = empresaRepository.findById(id).orElse(null);
+        if (e != null) {
+            e.setAprobada(true);
+            empresaRepository.save(e);
+        }
+    }
 }

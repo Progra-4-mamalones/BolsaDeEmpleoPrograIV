@@ -12,9 +12,7 @@ public class CaracteristicaService {
 
     private final CaracteristicaRepository caracteristicaRepository;
 
-    public CaracteristicaService(CaracteristicaRepository caracteristicaRepository) {
-        this.caracteristicaRepository = caracteristicaRepository;
-    }
+    public CaracteristicaService(CaracteristicaRepository caracteristicaRepository) { this.caracteristicaRepository = caracteristicaRepository; }
 
     public List<Caracteristica> obtenerTodas() {
         return caracteristicaRepository.findAll();
@@ -24,13 +22,11 @@ public class CaracteristicaService {
         return caracteristicaRepository.findById(id);
     }
 
-    public Caracteristica guardar(Caracteristica caracteristica) {
-        return caracteristicaRepository.save(caracteristica);
-    }
+    public Caracteristica guardar(Caracteristica caracteristica) { return caracteristicaRepository.save(caracteristica); }
 
     public void eliminar(Long id) {
         caracteristicaRepository.deleteById(id);
     }
 
-
+    public List<Caracteristica> obtenerRaices() { return caracteristicaRepository.findByPadreIsNull(); }
 }

@@ -35,4 +35,19 @@ public class OferenteService {
     public Oferente buscarPorCorreo(String correo) {
         return oferenteRepository.findByCorreo(correo);
     }
+
+    public long contar() { return oferenteRepository.count(); }
+
+    public long contarPendientes() { return oferenteRepository.countByAprobadoFalse(); }
+
+    public List<Oferente> obtenerPendientes() { return oferenteRepository.findByAprobadoFalse(); }
+
+    public void aprobar(Long id) {
+        Oferente o = oferenteRepository.findById(id).orElse(null);
+        if (o != null) {
+            o.setAprobado(true);
+            oferenteRepository.save(o);
+        }
+    }
+
 }

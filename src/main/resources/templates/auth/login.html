@@ -9,7 +9,7 @@
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
 <!-- NAVBAR -->
-<nav class="bg-black text-gray-300">
+<nav class="bg-blue-600 text-white shadow-lg">
 
     <input type="checkbox" id="menuToggle" class="hidden peer/menu">
 
@@ -18,46 +18,15 @@
 
             <!-- LOGO -->
             <a href="/" class="flex items-center gap-2 font-semibold hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 4v16m8-8H4"/>
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
                 </svg>
                 BolsaEmpleo
             </a>
 
-            <!-- MENU DESKTOP -->
-            <div class="hidden md:flex gap-6 text-sm">
-                <a href="/puestos/buscar-por-caracteristicas" class="hover:text-white">Buscar puestos</a>
-                <a href="/empresa/registro" class="hover:text-white">Registro Empresa</a>
-                <a href="/oferente/registro" class="hover:text-white">Registro Oferente</a>
-            </div>
-
-            <div class="hidden md:block">
-                <a href="/login" class="text-sm hover:text-white">Login</a>
-            </div>
-
-            <!-- BOTON HAMBURGER -->
-            <label for="menuToggle" class="md:hidden cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </label>
-
         </div>
     </div>
 
-    <!-- MENU MOBILE -->
-    <div class="hidden peer-checked/menu:block md:!hidden">
-        <div class="flex flex-col px-4 py-3 gap-3 text-sm">
-            <a href="/puestos/buscar-por-caracteristicas" class="hover:text-blue-400">Buscar puestos</a>
-            <a href="/empresa/registro" class="hover:text-blue-400">Registro Empresa</a>
-            <a href="/oferente/registro" class="hover:text-blue-400">Registro Oferente</a>
-            <a href="/login" class="hover:text-blue-400">Login</a>
-        </div>
-    </div>
 
 </nav>
 

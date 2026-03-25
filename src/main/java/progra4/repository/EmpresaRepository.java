@@ -9,5 +9,9 @@ public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
     Empresa findByCorreo(String correo);
 
     List<Empresa> findByAprobada(boolean aprobada);
+    List<Empresa> findByAprobadaFalse();
+
+    long countByAprobadaFalse();
+    long count();
 
 }

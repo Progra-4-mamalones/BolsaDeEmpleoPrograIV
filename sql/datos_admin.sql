@@ -1,3 +1,5 @@
+USE bolsa_empleo;
+
 INSERT INTO administrador (id, identificacion, clave)
 VALUES (1, 'admin123', '1234')
 ON DUPLICATE KEY UPDATE
