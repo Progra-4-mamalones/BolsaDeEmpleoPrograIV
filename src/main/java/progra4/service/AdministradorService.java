@@ -12,17 +12,11 @@ public class AdministradorService {
 
     private final AdministradorRepository administradorRepository;
 
-    public AdministradorService(AdministradorRepository administradorRepository) {
-        this.administradorRepository = administradorRepository;
-    }
+    public AdministradorService(AdministradorRepository administradorRepository) { this.administradorRepository = administradorRepository; }
 
-    public List<Administrador> obtenerTodos() {
-        return administradorRepository.findAll();
-    }
+    public List<Administrador> obtenerTodos() { return administradorRepository.findAll();}
 
-    public Optional<Administrador> obtenerPorId(Long id) {
-        return administradorRepository.findById(id);
-    }
+    public Optional<Administrador> obtenerPorId(Long id) { return administradorRepository.findById(id); }
 
     public Administrador guardar(Administrador administrador) {
         return administradorRepository.save(administrador);
