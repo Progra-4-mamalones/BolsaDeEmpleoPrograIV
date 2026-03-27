@@ -139,10 +139,10 @@
                         <div th:if="${candidato.curriculum != null}" class="bg-purple-50 border border-purple-200 rounded-lg p-6 flex justify-between items-center">
                             <div>
                                 <h3 class="text-lg font-semibold text-gray-800 mb-1">CV Disponible</h3>
-                                <p class="text-gray-600 text-sm" th:text="${candidato.curriculum.nombreArchivo}">documento.pdf</p>
+                                <p class="text-gray-600 text-sm" th:text="${candidato.curriculum.getArchivo()}">documento.pdf</p>
                             </div>
-                            <a th:href="'/curriculum/descargar/' + ${candidato.id}"
-                               class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2">
+                            <a th:href="@{/oferente/curriculum/descargar/{archivo}(archivo=${candidato.curriculum.archivo})}"
+                                class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors flex items-center space-x-2">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm3.172-5.171a1 1 0 111.414-1.414L9 12.586V5a1 1 0 112 0v7.586l1.414-1.415a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4z" clip-rule="evenodd"></path>
                                 </svg>
@@ -154,49 +154,9 @@
                             <p class="text-gray-600">Este candidato aún no ha subido su CV</p>
                         </div>
                     </div>
-
-                    <!-- Action Buttons -->
-                    <div class="flex justify-between items-center">
-                        <a href="/empresa/dashboard" class="px-6 py-2 border border-gray-300 text-gray-800 rounded-lg font-semibold hover:bg-gray-50 transition-colors">
-                            Volver
-                        </a>
-                        <div class="space-x-3 flex">
-                            <button class="px-6 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center space-x-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
-                                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
-                                </svg>
-                                <span>Contactar</span>
-                            </button>
-                            <button class="px-6 py-2 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-colors flex items-center space-x-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span>Rechazar</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Additional Info Card -->
-            <div class="bg-white rounded-lg shadow-md p-8">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Información del Registro</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <p class="text-sm text-gray-600 mb-1">Fecha de Registro</p>
-                        <p class="font-semibold text-gray-800" th:text="${#temporals.format(candidato.fechaRegistro, 'dd/MM/yyyy HH:mm')}">
-                            01/01/2024 10:30
-                        </p>
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-600 mb-1">Clave</p>
-                        <p class="font-semibold text-gray-800 font-mono" th:text="${candidato.clave}">CLAVE123</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
 </html>
-

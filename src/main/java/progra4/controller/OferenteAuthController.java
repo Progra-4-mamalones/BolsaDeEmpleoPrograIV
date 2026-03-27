@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.*;
+import java.nio.file.*;
 
 @Controller
 @RequestMapping("/oferente")
@@ -145,4 +149,25 @@ public class OferenteAuthController {
         return "redirect:/uploads/curriculum/" + curriculum.get().getArchivo();
     }
 
+    @GetMapping("/curriculum/descargar/{nombre}")
+    public ResponseEntity<Resource> descargarCurriculum(@PathVariable String nombre) throws Exception {
+
+        Path ruta = Paths.get("C:/uploads/curriculum").resolve(nombre);
+        Resource recurso = new UrlResource(ruta.toUri());
+
+        if (!recurso.exists() || !recurso.isReadable()) {
+            throw new RuntimeException("Archivo no encontrado: " + nombre);
+        }
+
+        String tipo = Files.probeContentType(ruta);
+        if (tipo == null) {
+            tipo = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(tipo))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + recurso.getFilename() + "\"")
+                .body(recurso);
+    }
 }

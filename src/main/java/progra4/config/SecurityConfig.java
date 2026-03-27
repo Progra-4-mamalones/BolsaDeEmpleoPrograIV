@@ -55,4 +55,19 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance(); // sin hash por ahora, las claves están en texto plano
     }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/oferente/curriculum/descargar/**").authenticated()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login") // si tienes login personalizado
+                        .permitAll()
+                );
+
+        return http.build();
+    }
 }
